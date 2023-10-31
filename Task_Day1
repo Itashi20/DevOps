@@ -1,0 +1,193 @@
+#Create 3 branches top level->master
+below it -->dev
+
+under dev-->create feature1 and feature2
+Now make changes in feature 1 and feature2 and merge it with dev branch
+Finally Merge the dev branch with the master branch and all the changes should be reflected in the master branch
+
+
+
+Solutionn:
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm
+$ git init
+Initialized empty Git repository in C:/Users/Administrator/eclipse-workspace3/spring-mvc-orm/.git/
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git branch
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git checkout -b dev master
+fatal: 'master' is not a commit and a branch 'dev' cannot be created from it
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        .mvn/
+        SpringMvcApplication.java
+        mvnw
+        mvnw.cmd
+        pom.xml
+        src/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git checkout -b dev master
+fatal: 'master' is not a commit and a branch 'dev' cannot be created from it
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ ^C
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git add .
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mvn/wrapper/maven-wrapper.properties', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'SpringMvcApplication.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mvnw', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mvnw.cmd', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'pom.xml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/example/springmvc/SpringMvcApplication.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/application.properties', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/test/java/com/example/springmvc/SpringMvcApplicationTests.java', LF will be replaced by CRLF the next time Git touches it
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git commit -m "master added"
+[master (root-commit) e715483] master added
+ 21 files changed, 1269 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 .mvn/wrapper/maven-wrapper.jar
+ create mode 100644 .mvn/wrapper/maven-wrapper.properties
+ create mode 100644 SpringMvcApplication.java
+ create mode 100644 mvnw
+ create mode 100644 mvnw.cmd
+ create mode 100644 pom.xml
+ create mode 100644 src/main/java/com/Exception/ErrorHandler.java
+ create mode 100644 src/main/java/com/Exception/ErrorResponse.java
+ create mode 100644 src/main/java/com/controller/AppController.java
+ create mode 100644 src/main/java/com/controller/ResController.java
+ create mode 100644 src/main/java/com/dao/AppDAO.java
+ create mode 100644 src/main/java/com/example/springmvc/SpringMvcApplication.java
+ create mode 100644 src/main/java/com/model/Address.java
+ create mode 100644 src/main/java/com/model/User.java
+ create mode 100644 src/main/java/com/service/UserDAO.java
+ create mode 100644 src/main/java/com/service/UserDAOImpl.java
+ create mode 100644 src/main/resources/application.properties
+ create mode 100644 src/main/resources/templates/login.html
+ create mode 100644 src/main/resources/templates/register.html
+ create mode 100644 src/test/java/com/example/springmvc/SpringMvcApplicationTests.java
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git checkout -b dev master
+Switched to a new branch 'dev'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (dev)
+$ git checkout -b feature1 dev
+Switched to a new branch 'feature1'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature1)
+$ git checkout -b feature2 dev
+Switched to a new branch 'feature2'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature2)
+$ git checkout feature1
+Switched to branch 'feature1'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature1)
+$ git status
+On branch feature1
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   src/main/java/com/example/springmvc/SpringMvcApplication.java
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature1)
+$ git add .
+warning: in the working copy of 'src/main/java/com/example/springmvc/SpringMvcApplication.java', LF will be replaced by CRLF the next time Git touches it
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature1)
+$ git commit -m "feature 1 updated"
+[feature1 c65dc70] feature 1 updated
+ 1 file changed, 2 insertions(+)
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature1)
+$ git checkout feature2
+Switched to branch 'feature2'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature2)
+$ git status
+On branch feature2
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   src/main/java/com/example/springmvc/SpringMvcApplication.java
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature2)
+$ git add .
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature2)
+$ git commit -m "feature2 updated"
+[feature2 bcbcc22] feature2 updated
+ 1 file changed, 1 insertion(+)
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (feature2)
+$ git checkout dev
+Switched to branch 'dev'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (dev)
+$ git merge feature1
+Updating e715483..c65dc70
+Fast-forward
+ src/main/java/com/example/springmvc/SpringMvcApplication.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (dev)
+$ git merge feature2
+Auto-merging src/main/java/com/example/springmvc/SpringMvcApplication.java
+CONFLICT (content): Merge conflict in src/main/java/com/example/springmvc/SpringMvcApplication.java
+Automatic merge failed; fix conflicts and then commit the result.
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (dev|MERGING)
+$ git status
+On branch dev
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (dev)
+$ git checkout master
+Switched to branch 'master'
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git merge dev
+Updating e715483..358956c
+Fast-forward
+ src/main/java/com/example/springmvc/SpringMvcApplication.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git log --oneline
+358956c (HEAD -> master, dev) Merge branch 'feature2' into dev
+bcbcc22 (feature2) feature2 updated
+c65dc70 (feature1) feature 1 updated
+e715483 master added
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 ~/eclipse-workspace3/spring-mvc-orm (master)
+$
