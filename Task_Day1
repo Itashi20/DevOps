@@ -4,6 +4,7 @@ below it -->dev
 under dev-->create feature1 and feature2
 Now make changes in feature 1 and feature2 and merge it with dev branch
 Finally Merge the dev branch with the master branch and all the changes should be reflected in the master branch
+Using project spring-mvc-orm-->datajpa
 
 
 
