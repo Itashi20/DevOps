@@ -1,0 +1,660 @@
+Administrator@win2019 MINGW64 /c/gitapp
+$ git init
+Initialized empty Git repository in C:/gitapp/.git/
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        welcome.txt.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git add welcome.txt
+fatal: pathspec 'welcome.txt' did not match any files
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git add welcome.txt
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   welcome.txt
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git commit -m "Added"
+[master (root-commit) 6c8c978] Added
+ 1 file changed, 1 insertion(+)
+ create mode 100644 welcome.txt
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ ^C
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git remote add origin https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git remote -v
+origin  https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/ (fetch)
+origin  https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/ (push)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+remote: Invalid credentials
+fatal: Authentication failed for 'https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/'
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+remote: Invalid credentials
+fatal: Authentication failed for 'https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/'
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master -f
+
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master -f
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+fatal: Missing 'state' in response.
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master
+To https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin master -f
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 223 bytes | 223.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+ + c0ffebc...6c8c978 master -> master (forced update)
+branch 'master' set up to track 'origin/master'.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git checkout -b test-branch master
+Switched to a new branch 'test-branch'
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git branch
+  master
+* test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git status
+On branch test-branch
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   welcome.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git commit -m "updated test"
+[test-branch efc22ab] updated test
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git checkout test-branch
+Switched to branch 'test-branch'
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git push --set-upstream origin test-branch
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (3/3), 260 bytes | 130.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create pull request for test-branch:
+remote:   https://bitbucket.org/practice-sunlife/sunlife-repo/pull-requests/new?source=test-branch&t=1
+remote:
+To https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+ * [new branch]      test-branch -> test-branch
+branch 'test-branch' set up to track 'origin/test-branch'.
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git fetch -all
+error: did you mean `--all` (with two dashes)?
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git fetch --all
+From https://bitbucket.org/practice-sunlife/sunlife-repo/src/master
+ * [new branch]      feature    -> origin/feature
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git branch -r
+  origin/feature
+  origin/master
+  origin/test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git checkout -b new-branch master
+Switched to a new branch 'new-branch'
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git branch
+  master
+* new-branch
+  test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git status
+On branch new-branch
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   welcome.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git commit -m "new commit"
+[new-branch 85f9a80] new commit
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git push --set-upstream origin new-branch
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (3/3), 258 bytes | 129.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create pull request for new-branch:
+remote:   https://bitbucket.org/practice-sunlife/sunlife-repo/pull-requests/new?source=new-branch&t=1
+remote:
+To https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+ * [new branch]      new-branch -> new-branch
+branch 'new-branch' set up to track 'origin/new-branch'.
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git push -d origin new-branch
+To https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+ - [deleted]         new-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git branch
+  master
+* new-branch
+  test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git branch -d new-branch
+error: Cannot delete branch 'new-branch' checked out at 'C:/gitapp'
+
+Administrator@win2019 MINGW64 /c/gitapp (new-branch)
+$ git checkout test-branch
+Switched to branch 'test-branch'
+Your branch is up to date with 'origin/test-branch'.
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git branch -d new-branch
+error: The branch 'new-branch' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D new-branch'.
+
+Administrator@win2019 MINGW64 /c/gitapp (test-branch)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git branch -D new-branch
+Deleted branch new-branch (was 85f9a80).
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git branch
+* master
+  test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git commit -m "updated main"
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git push --set-upstream origin
+Everything up-to-date
+branch 'master' set up to track 'origin/master'.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git checkout -b child1 master
+Switched to a new branch 'child1'
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git status
+On branch child1
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        child1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git commit -m "updated child"
+[child1 6c86a71] updated child
+ 1 file changed, 1 insertion(+)
+ create mode 100644 child1.txt
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git push --set-upstream origin child1
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 303 bytes | 151.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create pull request for child1:
+remote:   https://bitbucket.org/practice-sunlife/sunlife-repo/pull-requests/new?source=child1&t=1
+remote:
+To https://bitbucket.org/practice-sunlife/sunlife-repo/src/master/
+ * [new branch]      child1 -> child1
+branch 'child1' set up to track 'origin/child1'.
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git branch
+  child1
+* master
+  test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        index.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git commit -m "Added in master branch"
+[master b13b9d0] Added in master branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 index.html
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git checkout child1
+Switched to branch 'child1'
+Your branch is up to date with 'origin/child1'.
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git status
+On branch child1
+Your branch is up to date with 'origin/child1'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        demo1.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git commit -m "child1 commit"
+[child1 414b83c] child1 commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 demo1.html
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git checkout -b child2 master
+Switched to a new branch 'child2'
+
+Administrator@win2019 MINGW64 /c/gitapp (child2)
+$ git status
+On branch child2
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        demo2.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Administrator@win2019 MINGW64 /c/gitapp (child2)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (child2)
+$ git commit -m "Child2 committed"
+[child2 3d2f799] Child2 committed
+ 1 file changed, 1 insertion(+)
+ create mode 100644 demo2.html
+
+Administrator@win2019 MINGW64 /c/gitapp (child2)
+$ git merge child1
+Merge made by the 'ort' strategy.
+ child1.txt | 1 +
+ demo1.html | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 100644 child1.txt
+ create mode 100644 demo1.html
+
+Administrator@win2019 MINGW64 /c/gitapp (child2)
+$ git checkout master
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git merge child1
+Merge made by the 'ort' strategy.
+ child1.txt | 1 +
+ demo1.html | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 100644 child1.txt
+ create mode 100644 demo1.html
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git merge child2
+Merge made by the 'ort' strategy.
+ demo2.html | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 demo2.html
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git branch
+  child1
+  child2
+* master
+  test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 7 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   demo1.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git commit -m "master updated"
+
+[master 4778474] master updated
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git checkout child1
+Switched to branch 'child1'
+Your branch is ahead of 'origin/child1' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git commit -m "Child1 updated"
+[child1 dc79a18] Child1 updated
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Administrator@win2019 MINGW64 /c/gitapp (child1)
+$ git checkout master
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 8 commits.
+  (use "git push" to publish your local commits)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git merge child1
+Auto-merging demo1.html
+CONFLICT (content): Merge conflict in demo1.html
+Automatic merge failed; fix conflicts and then commit the result.
+
+Administrator@win2019 MINGW64 /c/gitapp (master|MERGING)
+$ git merge child1
+error: Merging is not possible because you have unmerged files.
+hint: Fix them up in the work tree, and then use 'git add/rm <file>'
+hint: as appropriate to mark resolution and make a commit.
+fatal: Exiting because of an unresolved conflict.
+
+Administrator@win2019 MINGW64 /c/gitapp (master|MERGING)
+$ git merge child1
+Already up to date.
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git log --oneline
+5fd7a77 (HEAD -> master) Merge branch 'child1' both
+dc79a18 (child1) Child1 updated
+4778474 master updated
+3675587 Merge branch 'child2'
+780f8a0 Merge branch 'child1'
+783b27c (child2) Merge branch 'child1' into child2
+3d2f799 Child2 committed
+414b83c child1 commit
+b13b9d0 Added in master branch
+6c86a71 (origin/child1) updated child
+6c8c978 (origin/master, origin/feature) Added
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git commit -m "main added"
+[master d9c6f1c] main added
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git log --oneline
+d9c6f1c (HEAD -> master) main added
+5fd7a77 Merge branch 'child1' both
+dc79a18 (child1) Child1 updated
+4778474 master updated
+3675587 Merge branch 'child2'
+780f8a0 Merge branch 'child1'
+783b27c (child2) Merge branch 'child1' into child2
+3d2f799 Child2 committed
+414b83c child1 commit
+b13b9d0 Added in master branch
+6c86a71 (origin/child1) updated child
+6c8c978 (origin/master, origin/feature) Added
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git revert dc79a18
+Auto-merging demo1.html
+CONFLICT (content): Merge conflict in demo1.html
+error: could not revert dc79a18... Child1 updated
+hint: After resolving the conflicts, mark them with
+hint: "git add/rm <pathspec>", then run
+hint: "git revert --continue".
+hint: You can instead skip this commit with "git revert --skip".
+hint: To abort and get back to the state before "git revert",
+hint: run "git revert --abort".
+
+Administrator@win2019 MINGW64 /c/gitapp (master|REVERTING)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 11 commits.
+  (use "git push" to publish your local commits)
+
+You are currently reverting commit dc79a18.
+  (fix conflicts and run "git revert --continue")
+  (use "git revert --skip" to skip this patch)
+  (use "git revert --abort" to cancel the revert operation)
+
+Unmerged paths:
+  (use "git restore --staged <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+        both modified:   demo1.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 /c/gitapp (master|REVERTING)
+$ git add .
+
+Administrator@win2019 MINGW64 /c/gitapp (master|REVERTING)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 11 commits.
+  (use "git push" to publish your local commits)
+
+You are currently reverting commit dc79a18.
+  (all conflicts fixed: run "git revert --continue")
+  (use "git revert --skip" to skip this patch)
+  (use "git revert --abort" to cancel the revert operation)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   demo1.html
+
+
+Administrator@win2019 MINGW64 /c/gitapp (master|REVERTING)
+$ git commit -m "new commit"
+[master af12bdf] new commit
+ 1 file changed, 4 insertions(+)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git branch
+  child1
+  child2
+* master
+  test-branch
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 12 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   welcome.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git log --oneline
+af12bdf (HEAD -> master) new commit
+d9c6f1c main added
+5fd7a77 Merge branch 'child1' both
+dc79a18 (child1) Child1 updated
+4778474 master updated
+3675587 Merge branch 'child2'
+780f8a0 Merge branch 'child1'
+783b27c (child2) Merge branch 'child1' into child2
+3d2f799 Child2 committed
+414b83c child1 commit
+b13b9d0 Added in master branch
+6c86a71 (origin/child1) updated child
+6c8c978 (origin/master, origin/feature) Added
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git revert af12bdf
+[master bbcf995] Revert "new commit"
+ 1 file changed, 4 deletions(-)
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$ git log --oneline
+bbcf995 (HEAD -> master) Revert "new commit"
+af12bdf new commit
+d9c6f1c main added
+5fd7a77 Merge branch 'child1' both
+dc79a18 (child1) Child1 updated
+4778474 master updated
+3675587 Merge branch 'child2'
+780f8a0 Merge branch 'child1'
+783b27c (child2) Merge branch 'child1' into child2
+3d2f799 Child2 committed
+414b83c child1 commit
+b13b9d0 Added in master branch
+6c86a71 (origin/child1) updated child
+6c8c978 (origin/master, origin/feature) Added
+
+Administrator@win2019 MINGW64 /c/gitapp (master)
+$
