@@ -1,0 +1,25 @@
+command to  run jeckins at port 8080
+C:\Users\Administrator\Downloads>java -jar jenkins.war  (run this in cmd where you have jenkins)
+
+in other cmd
+after downloading maven
+type
+mvn
+mvn clean 
+mvn test
+eg: C:\sunlife-spring\spring-core>mvn clean
+
+
+for deploying in jenkins and creating an piple in it
+1)Create environment in jenkins: for maven
+2)for git
+3)in github in pom.xml add <packaging>war</packaging>   
+
+
+
+
+For apache tomcat start 
+launch C:\Users\Administrator\Downloads\apache-tomcat-9.0.81\bin   startup bat file from here
+
+
+
