@@ -156,5 +156,33 @@ history
 
 
 
+####################################################################################
+48  docker login
+   49  docker login
+   50  docker login
+   51  docker images
+   52  docker tag my-java-image itashi20/my-java-image
+   53  docker images
+   54  docker push itashi20/my-java-image
+   55  history
+   56  docker rmi itashi20/my-java-image
+   57  docker rmi my-java-image --force
+   58  docker images
+   59  docker pull my-java-image --force
+   60  docker pull itashi20/my-java-image
+   61  docker images
+   62  history
+
+
+
+
+
+
+
+
+
+
+
+
 
 
