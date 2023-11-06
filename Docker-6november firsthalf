@@ -1,0 +1,925 @@
+[node1] (local) root@192.168.0.28 ~
+$ docker volume ls
+DRIVER    VOLUME NAME
+[node1] (local) root@192.168.0.28 ~
+$ docker volume create myvol
+myvol
+[node1] (local) root@192.168.0.28 ~
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     myvol
+[node1] (local) root@192.168.0.28 ~
+$ docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+[node1] (local) root@192.168.0.28 ~
+$ docker pull jenkins/jenkins:jdk11
+jdk11: Pulling from jenkins/jenkins
+0a9573503463: Pull complete 
+79f246b5779a: Pull complete 
+c014ee593a3d: Pull complete 
+4ad8d150fa8c: Pull complete 
+47db57091084: Pull complete 
+ab3bdbf6ab85: Pull complete 
+f98d2fee5369: Pull complete 
+be637fdb70e6: Pull complete 
+127803008baf: Pull complete 
+126ac81ba5f1: Pull complete 
+2df81a77f13b: Pull complete 
+4f8e8411255a: Pull complete 
+d63ce037de4e: Pull complete 
+Digest: sha256:e524be4daa8d1cfdff85df01b8e43a12661d738d83e2371d64f3f6f7cba45f89
+Status: Downloaded newer image for jenkins/jenkins:jdk11
+docker.io/jenkins/jenkins:jdk11
+[node1] (local) root@192.168.0.28 ~
+$ docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                               NAMES
+97792417a3e2   jenkins/jenkins:jdk11   "/usr/bin/tini -- /u…"   30 seconds ago   Up 28 seconds   50000/tcp, 0.0.0.0:8090->8080/tcp   myjenkins
+[node1] (local) root@192.168.0.28 ~
+$ docker logs 9779
+Running from: /usr/share/jenkins/jenkins.war
+webroot: /var/jenkins_home/war
+2023-11-06 04:19:29.980+0000 [id=1]     INFO    winstone.Logger#logInternal: Beginning extraction from war file
+2023-11-06 04:19:32.849+0000 [id=1]     WARNING o.e.j.s.handler.ContextHandler#setContextPath: Empty contextPath
+2023-11-06 04:19:33.106+0000 [id=1]     INFO    org.eclipse.jetty.server.Server#doStart: jetty-10.0.17; built: 2023-10-02T04:04:10.314Z; git: a0f5f05abaa6c3aabb7c3d35f10a6f412ab8b05f; jvm 11.0.20.1+1
+2023-11-06 04:19:34.668+0000 [id=1]     INFO    o.e.j.w.StandardDescriptorProcessor#visitServlet: NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+2023-11-06 04:19:34.944+0000 [id=1]     INFO    o.e.j.s.s.DefaultSessionIdManager#doStart: Session workerName=node0
+2023-11-06 04:19:38.309+0000 [id=1]     INFO    hudson.WebAppMain#contextInitialized: Jenkins home directory: /var/jenkins_home found at: EnvVars.masterEnvVars.get("JENKINS_HOME")
+2023-11-06 04:19:39.147+0000 [id=1]     INFO    o.e.j.s.handler.ContextHandler#doStart: Started w.@72456279{Jenkins v2.430,/,file:///var/jenkins_home/war/,AVAILABLE}{/var/jenkins_home/war}
+2023-11-06 04:19:39.233+0000 [id=1]     INFO    o.e.j.server.AbstractConnector#doStart: Started ServerConnector@293a5f75{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
+2023-11-06 04:19:39.347+0000 [id=1]     INFO    org.eclipse.jetty.server.Server#doStart: Started Server@68044f4{STARTING}[10.0.17,sto=0] @11665ms
+2023-11-06 04:19:39.370+0000 [id=25]    INFO    winstone.Logger#logInternal: Winstone Servlet Engine running: controlPort=disabled
+2023-11-06 04:19:40.328+0000 [id=33]    INFO    jenkins.InitReactorRunner$1#onAttained: Started initialization
+2023-11-06 04:19:40.459+0000 [id=31]    INFO    jenkins.InitReactorRunner$1#onAttained: Listed all plugins
+2023-11-06 04:19:43.866+0000 [id=46]    INFO    jenkins.InitReactorRunner$1#onAttained: Prepared all plugins
+2023-11-06 04:19:43.883+0000 [id=46]    INFO    jenkins.InitReactorRunner$1#onAttained: Started all plugins
+2023-11-06 04:19:43.908+0000 [id=41]    INFO    jenkins.InitReactorRunner$1#onAttained: Augmented all extensions
+2023-11-06 04:19:45.341+0000 [id=43]    INFO    jenkins.InitReactorRunner$1#onAttained: System config loaded
+2023-11-06 04:19:45.342+0000 [id=43]    INFO    jenkins.InitReactorRunner$1#onAttained: System config adapted
+2023-11-06 04:19:45.345+0000 [id=43]    INFO    jenkins.InitReactorRunner$1#onAttained: Loaded all jobs
+2023-11-06 04:19:45.350+0000 [id=43]    INFO    jenkins.InitReactorRunner$1#onAttained: Configuration for all jobs updated
+2023-11-06 04:19:45.496+0000 [id=59]    INFO    hudson.util.Retrier#start: Attempt #1 to do the action check updates server
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.codehaus.groovy.vmplugin.v7.Java7$1 (file:/var/jenkins_home/war/WEB-INF/lib/groovy-all-2.4.21.jar) to constructor java.lang.invoke.MethodHandles$Lookup(java.lang.Class,int)
+WARNING: Please consider reporting this to the maintainers of org.codehaus.groovy.vmplugin.v7.Java7$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+2023-11-06 04:19:48.719+0000 [id=43]    INFO    jenkins.install.SetupWizard#init: 
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+abdeae169db949afb6c2cfe524cfa620
+
+This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+2023-11-06 04:20:49.508+0000 [id=39]    INFO    jenkins.InitReactorRunner$1#onAttained: Completed initialization
+2023-11-06 04:20:49.601+0000 [id=24]    INFO    hudson.lifecycle.Lifecycle#onReady: Jenkins is fully up and running
+2023-11-06 04:20:49.765+0000 [id=59]    INFO    h.m.DownloadService$Downloadable#load: Obtained the updated data file for hudson.tasks.Maven.MavenInstaller
+2023-11-06 04:20:49.772+0000 [id=59]    INFO    hudson.util.Retrier#start: Performed the action check updates server successfully at the attempt #1
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                               NAMES
+97792417a3e2   jenkins/jenkins:jdk11   "/usr/bin/tini -- /u…"   17 minutes ago   Up 17 minutes   50000/tcp, 0.0.0.0:8090->8080/tcp   myjenkins
+[node1] (local) root@192.168.0.28 ~
+$ docker inspect container 9779
+[
+    {
+        "Id": "97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c",
+        "Created": "2023-11-06T04:19:26.81709253Z",
+        "Path": "/usr/bin/tini",
+        "Args": [
+            "--",
+            "/usr/local/bin/jenkins.sh"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 339,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2023-11-06T04:19:27.640115493Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:6cbd5625d2cd525d2802ad5451891728332b0eafdf1a770ba6768d38b16d8676",
+        "ResolvConfPath": "/var/lib/docker/containers/97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c/hostname",
+        "HostsPath": "/var/lib/docker/containers/97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c/hosts",
+        "LogPath": "/var/lib/docker/containers/97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c/97792417a3e25a02edb3c49c29c6fc4511bf4da6da6bf54232169430cc6be12c-json.log",
+        "Name": "/myjenkins",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "myvol:/var/jenkins_home"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {
+                "8080/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "8090"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                27,
+                164
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware",
+                "/sys/devices/virtual/powercap"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/dbf0a2681540f2e3048bec525d2dccf95877ca2587986bb24d97967b1accf869-init/diff:/var/lib/docker/overlay2/2762c61b548a832f4467156882a618c8c6ee52022c53f2a7a11f82b7db48670c/diff:/var/lib/docker/overlay2/664241da044aac65f3119f18135d54e25c28b4e48d9e1c8a3c71ab2a4b2f468b/diff:/var/lib/docker/overlay2/35f991e5a41ead61833fde09a22a9243dc5c27baa27c216e5ff0150424a24054/diff:/var/lib/docker/overlay2/53e96c51ec0e54e2c3f8bc984821512e1e954dd4339ad7b9623035e35f7cd66f/diff:/var/lib/docker/overlay2/9d5ecaa71a22411c69bd011e3e572c805796a3a378f5abc36ce923b841a8cb95/diff:/var/lib/docker/overlay2/b3e9fde23ce12fbc5906ba493b60677f3ea0256ef1e5ed2c564db55ba34b3f06/diff:/var/lib/docker/overlay2/c65e18cefbe860de75050abefdee7cb28fa950ae5aeb952e80a95382dde7f08c/diff:/var/lib/docker/overlay2/8d8a1962afd04c3945000988bcfe587c6141611d76480346dc62074e5aa2d5b1/diff:/var/lib/docker/overlay2/d08990771301a7d99ad7c280f6d23e09eab94b86a814745319305c947f72a714/diff:/var/lib/docker/overlay2/ac39f983514878a77169d96f89934fea717d717cc76d59a3b206e1a7b08b5506/diff:/var/lib/docker/overlay2/aa0fda213c1f01b33942f34679b0642773f13611e990d91ad51076558f4cb215/diff:/var/lib/docker/overlay2/9c581df8248683a468796ea14963048e2e78bbc78098c5352979c4f1fb91e1d9/diff:/var/lib/docker/overlay2/e50b60144de307fdfc00b3f5b1b1cfb78ec7384ae5bf6af0e3c0bef1cf38709b/diff",
+                "MergedDir": "/var/lib/docker/overlay2/dbf0a2681540f2e3048bec525d2dccf95877ca2587986bb24d97967b1accf869/merged",
+                "UpperDir": "/var/lib/docker/overlay2/dbf0a2681540f2e3048bec525d2dccf95877ca2587986bb24d97967b1accf869/diff",
+                "WorkDir": "/var/lib/docker/overlay2/dbf0a2681540f2e3048bec525d2dccf95877ca2587986bb24d97967b1accf869/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "myvol",
+                "Source": "/var/lib/docker/volumes/myvol/_data",
+                "Destination": "/var/jenkins_home",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "97792417a3e2",
+            "Domainname": "",
+            "User": "jenkins",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "50000/tcp": {},
+                "8080/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "JENKINS_HOME=/var/jenkins_home",
+                "JENKINS_SLAVE_AGENT_PORT=50000",
+                "REF=/usr/share/jenkins/ref",
+                "JENKINS_VERSION=2.430",
+                "JENKINS_UC=https://updates.jenkins.io",
+                "JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental",
+                "JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals",
+                "COPY_REFERENCE_FILE_LOG=/var/jenkins_home/copy_reference_file.log",
+                "JAVA_HOME=/opt/java/openjdk"
+            ],
+            "Cmd": null,
+            "Image": "jenkins/jenkins:jdk11",
+            "Volumes": {
+                "/var/jenkins_home": {}
+            },
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/usr/bin/tini",
+                "--",
+                "/usr/local/bin/jenkins.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {
+                "org.opencontainers.image.description": "The Jenkins Continuous Integration and Delivery server",
+                "org.opencontainers.image.licenses": "MIT",
+                "org.opencontainers.image.revision": "fd81f51a8fa7a3b90de6fbc129dbf509ee0ab6a3",
+                "org.opencontainers.image.source": "https://github.com/jenkinsci/docker",
+                "org.opencontainers.image.title": "Official Jenkins Docker image",
+                "org.opencontainers.image.url": "https://www.jenkins.io/",
+                "org.opencontainers.image.vendor": "Jenkins project",
+                "org.opencontainers.image.version": "2.430"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "6f89eca5996e0ff68a813b2b6126760f3068e3cfa6e1839b2d9375845d0c7f59",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {
+                "50000/tcp": null,
+                "8080/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "8090"
+                    }
+                ]
+            },
+            "SandboxKey": "/var/run/docker/netns/6f89eca5996e",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "c5b28422d129d98cffdf3417cf88904c150ec97c0baa6263b0b33af98bd562e0",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "b93d7142ddc0d9f726e1dab6719f4bc0aa1982f93cb19217faa697f52089bbb7",
+                    "EndpointID": "c5b28422d129d98cffdf3417cf88904c150ec97c0baa6263b0b33af98bd562e0",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+Error: No such object: container
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                               NAMES
+97792417a3e2   jenkins/jenkins:jdk11   "/usr/bin/tini -- /u…"   18 minutes ago   Up 18 minutes   50000/tcp, 0.0.0.0:8090->8080/tcp   myjenkins
+[node1] (local) root@192.168.0.28 ~
+$ docker rm 9779 --force
+9779
+[node1] (local) root@192.168.0.28 ~
+$ docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+d0e2eb1a4f178e70cffc447ba199fa107f69738a9177b403ed52c8585b990792
+[node1] (local) root@192.168.0.28 ~
+$ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                               NAMES
+d0e2eb1a4f17   jenkins/jenkins:jdk11   "/usr/bin/tini -- /u…"   39 minutes ago   Up 39 minutes   50000/tcp, 0.0.0.0:8070->8080/tcp   myjenkins2
+[node1] (local) root@192.168.0.28 ~
+$ docker rm d0e2 --force
+d0e2
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[node1] (local) root@192.168.0.28 ~
+$ mkdir mydockerfiles
+[node1] (local) root@192.168.0.28 ~
+$ cd mydockerfiles/
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ vi Dockerfile
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ cat Dockerfile
+From ubuntu:20.04
+
+MAINTAINER Itashi<Itashi@gmail.com>
+
+RUN apt-get update
+
+CMD ["echo","WELCOME TO MY IMAGE"]
+
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker build -t myimage .
+[+] Building 14.5s (6/6) FINISHED                                                                                                                    docker:default
+ => [internal] load build definition from Dockerfile                                                                                                           0.1s
+ => => transferring dockerfile: 149B                                                                                                                           0.0s
+ => [internal] load .dockerignore                                                                                                                              0.1s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:20.04                                                                                                0.4s
+ => [1/2] FROM docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f244870e23122f703f91c2                                          5.4s
+ => => resolve docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f244870e23122f703f91c2                                          0.0s
+ => => sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f244870e23122f703f91c2 1.13kB / 1.13kB                                                                 0.0s
+ => => sha256:218bb51abbd1864df8be26166f847547b3851a89999ca7bfceb85ca9b5d2e95d 424B / 424B                                                                     0.0s
+ => => sha256:bf40b7bc7a11b43785755d3c5f23dee03b08e988b327a2f10b22d01d5dc5259d 2.30kB / 2.30kB                                                                 0.0s
+ => => sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80ecae7cb25f9ba5f7d88ea6e15c 27.51MB / 27.51MB                                                               0.6s
+ => => extracting sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80ecae7cb25f9ba5f7d88ea6e15c                                                                      4.5s
+ => [2/2] RUN apt-get update                                                                                                                                   8.0s
+ => exporting to image                                                                                                                                         0.5s
+ => => exporting layers                                                                                                                                        0.5s
+ => => writing image sha256:a214f6e877805b75d6ad527f00d07588e30ced000d46df7ffd457a2a1a6946f3                                                                   0.0s 
+ => => naming to docker.io/library/myimage                                                                                                                     0.0s 
+[node1] (local) root@192.168.0.28 ~/mydockerfiles                                                                                                                   
+$ docker images                                                                                                                                                     
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+myimage           latest    a214f6e87780   16 seconds ago   120MB
+jenkins/jenkins   jdk11     6cbd5625d2cd   5 days ago       478MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker run myimage
+WELCOME TO MY IMAGE
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+82e9c392ef39   myimage   "echo 'WELCOME TO MY…"   15 seconds ago   Exited (0) 14 seconds ago             fervent_dubinsky
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+   15  docker ps
+   16  docker rm d0e2 --force
+   17  docker ps
+   18  mkdir mydockerfiles
+   19  cd mydockerfiles/
+   20  vi Dockerfile
+   21  cat Dockerfile
+   22  docker build -t myimage .
+   23  docker images
+   24  docker run myimage
+   25  docker ps -a
+   26  history
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker pull openjdk:8
+8: Pulling from library/openjdk
+001c52e26ad5: Pull complete 
+d9d4b9b6e964: Pull complete 
+2068746827ec: Pull complete 
+9daef329d350: Pull complete 
+d85151f15b66: Pull complete 
+52a8c426d30b: Pull complete 
+8754a66e0050: Pull complete 
+Digest: sha256:86e863cc57215cfb181bd319736d0baf625fe8f150577f9eb58bd937f5452cb8
+Status: Downloaded newer image for openjdk:8
+docker.io/library/openjdk:8
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker pull mysql:5.6
+5.6: Pulling from library/mysql
+35b2232c987e: Pull complete 
+fc55c00e48f2: Pull complete 
+0030405130e3: Pull complete 
+e1fef7f6a8d1: Pull complete 
+1c76272398bb: Pull complete 
+f57e698171b6: Pull complete 
+f5b825b269c0: Pull complete 
+dcb0af686073: Pull complete 
+27bbfeb886d1: Pull complete 
+6f70cc868145: Pull complete 
+1f6637f4600d: Pull complete 
+Digest: sha256:20575ecebe6216036d25dab5903808211f1e9ba63dc7825ac20cb975e34cfcae
+Status: Downloaded newer image for mysql:5.6
+docker.io/library/mysql:5.6
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+myimage           latest    a214f6e87780   16 minutes ago   120MB
+jenkins/jenkins   jdk11     6cbd5625d2cd   5 days ago       478MB
+openjdk           8         b273004037cc   15 months ago    526MB
+mysql             5.6       dd3b2a5dcb48   22 months ago    303MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ rm Dockerfile
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ ls
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ git clone https://github.com/Itashi20/sldocker.git
+Cloning into 'sldocker'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), 15.22 MiB | 8.47 MiB/s, done.
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ cd sldocker/
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ ls
+spring-app.jar
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+   15  docker ps
+   16  docker rm d0e2 --force
+   17  docker ps
+   18  mkdir mydockerfiles
+   19  cd mydockerfiles/
+   20  vi Dockerfile
+   21  cat Dockerfile
+   22  docker build -t myimage .
+   23  docker images
+   24  docker run myimage
+   25  docker ps -a
+   26  history
+   27  docker pull openjdk:8
+   28  docker pull mysql:5.6
+   29  docker images
+   30  docker ps
+   31  rm Dockerfile
+   32  ls
+   33  git clone https://github.com/Itashi20/sldocker.git
+   34  cd sldocker/
+   35  ls
+   36  history
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ vi Dockerfile
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker build -t my-java-image
+ERROR: "docker buildx build" requires exactly 1 argument.
+See 'docker buildx build --help'.
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Start a build
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker build -t my-java-image .
+[+] Building 1.5s (7/7) FINISHED                                                                                                                     docker:default
+ => [internal] load build definition from Dockerfile                                                                                                           0.0s
+ => => transferring dockerfile: 148B                                                                                                                           0.0s
+ => [internal] load .dockerignore                                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load metadata for docker.io/library/openjdk:8                                                                                                   0.0s
+ => [internal] load build context                                                                                                                              0.8s
+ => => transferring context: 17.76MB                                                                                                                           0.8s
+ => [1/2] FROM docker.io/library/openjdk:8                                                                                                                     0.3s
+ => [2/2] ADD spring-app.jar spring-app.jar                                                                                                                    0.2s
+ => exporting to image                                                                                                                                         0.3s
+ => => exporting layers                                                                                                                                        0.3s
+ => => writing image sha256:733366b90b65b9691aff33097867b11ad306ab69708c230490f0aa9676819da4                                                                   0.0s
+ => => naming to docker.io/library/my-java-image                                                                                                               0.0s
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker run my-java-image
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-06 06:14:05.957  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on 2dc3ce6eed43 with PID 1 (/spring-app.jar started by root in /)
+2023-11-06 06:14:06.012  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-11-06 06:14:13.633  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-11-06 06:14:13.742  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-06 06:14:13.743  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-06 06:14:14.296  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-06 06:14:14.300  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7483 ms
+2023-11-06 06:14:17.072  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2023-11-06 06:14:17.186  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Started SpringCoreApplication in 16.474 seconds (JVM running for 21.734)
+^C[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ 
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED              STATUS                        PORTS     NAMES
+2dc3ce6eed43   my-java-image   "java -jar spring-ap…"   About a minute ago   Exited (130) 14 seconds ago             quirky_feistel
+82e9c392ef39   myimage         "echo 'WELCOME TO MY…"   49 minutes ago       Exited (0) 48 minutes ago               fervent_dubinsky
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker rm 2dc --force
+2dc
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker run -d -p 8070:8090 --name java-con my-java-image
+ec96d046c397d387a80b0f6fbde40ebfc453b810ea64f5e89e4f4657a3a15c00
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker logs ec96
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-06 06:16:36.004  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on ec96d046c397 with PID 1 (/spring-app.jar started by root in /)
+2023-11-06 06:16:36.091  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+   15  docker ps
+   16  docker rm d0e2 --force
+   17  docker ps
+   18  mkdir mydockerfiles
+   19  cd mydockerfiles/
+   20  vi Dockerfile
+   21  cat Dockerfile
+   22  docker build -t myimage .
+   23  docker images
+   24  docker run myimage
+   25  docker ps -a
+   26  history
+   27  docker pull openjdk:8
+   28  docker pull mysql:5.6
+   29  docker images
+   30  docker ps
+   31  rm Dockerfile
+   32  ls
+   33  git clone https://github.com/Itashi20/sldocker.git
+   34  cd sldocker/
+   35  ls
+   36  history
+   37  vi Dockerfile
+   38  docker build -t my-java-image
+   39  docker build -t my-java-image .
+   40  docker run my-java-image
+   41  docker ps
+   42  docker ps -a
+   43  docker rm 2dc --force
+   44  docker run -d -p 8070:8090 --name java-con my-java-image
+   45  docker logs ec96
+   46  history
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ vi Dockerfile
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker login
+Log in with your Docker ID or email address to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com/ to create one.
+You can log in with your password or a Personal Access Token (PAT). Using a limited-scope PAT grants better security and is required for organizations using SSO. Learn more at https://docs.docker.com/go/access-tokens/
+
+Username: Itashi Pathria
+Password: 
+Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: incorrect username or password
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker login
+Log in with your Docker ID or email address to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com/ to create one.
+You can log in with your password or a Personal Access Token (PAT). Using a limited-scope PAT grants better security and is required for organizations using SSO. Learn more at https://docs.docker.com/go/access-tokens/
+
+Username: Itashi Pathria
+Password: 
+Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: incorrect username or password
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker login
+Log in with your Docker ID or email address to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com/ to create one.
+You can log in with your password or a Personal Access Token (PAT). Using a limited-scope PAT grants better security and is required for organizations using SSO. Learn more at https://docs.docker.com/go/access-tokens/
+
+Username: itashi20
+Password: 
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED             SIZE
+my-java-image     latest    733366b90b65   24 minutes ago      544MB
+myimage           latest    a214f6e87780   About an hour ago   120MB
+jenkins/jenkins   jdk11     6cbd5625d2cd   5 days ago          478MB
+openjdk           8         b273004037cc   15 months ago       526MB
+mysql             5.6       dd3b2a5dcb48   22 months ago       303MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker tag my-java-image itashi20/my-java-image
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker images
+REPOSITORY               TAG       IMAGE ID       CREATED             SIZE
+itashi20/my-java-image   latest    733366b90b65   25 minutes ago      544MB
+my-java-image            latest    733366b90b65   25 minutes ago      544MB
+myimage                  latest    a214f6e87780   About an hour ago   120MB
+jenkins/jenkins          jdk11     6cbd5625d2cd   5 days ago          478MB
+openjdk                  8         b273004037cc   15 months ago       526MB
+mysql                    5.6       dd3b2a5dcb48   22 months ago       303MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker push itashi20/my-java-image
+Using default tag: latest
+The push refers to repository [docker.io/itashi20/my-java-image]
+e3480c7a6a46: Pushed 
+6b5aaff44254: Mounted from library/openjdk 
+53a0b163e995: Mounted from library/openjdk 
+b626401ef603: Mounted from library/openjdk 
+9b55156abf26: Mounted from library/openjdk 
+293d5db30c9f: Mounted from library/openjdk 
+03127cdb479b: Mounted from library/openjdk 
+9c742cd6c7a5: Mounted from library/openjdk 
+latest: digest: sha256:f133d49e37ea0d8d8be4bcbc5f583e29cf1aa0eadad243d6bbfa893130bd157b size: 2007
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+   15  docker ps
+   16  docker rm d0e2 --force
+   17  docker ps
+   18  mkdir mydockerfiles
+   19  cd mydockerfiles/
+   20  vi Dockerfile
+   21  cat Dockerfile
+   22  docker build -t myimage .
+   23  docker images
+   24  docker run myimage
+   25  docker ps -a
+   26  history
+   27  docker pull openjdk:8
+   28  docker pull mysql:5.6
+   29  docker images
+   30  docker ps
+   31  rm Dockerfile
+   32  ls
+   33  git clone https://github.com/Itashi20/sldocker.git
+   34  cd sldocker/
+   35  ls
+   36  history
+   37  vi Dockerfile
+   38  docker build -t my-java-image
+   39  docker build -t my-java-image .
+   40  docker run my-java-image
+   41  docker ps
+   42  docker ps -a
+   43  docker rm 2dc --force
+   44  docker run -d -p 8070:8090 --name java-con my-java-image
+   45  docker logs ec96
+   46  history
+   47  vi Dockerfile
+   48  docker login
+   49  docker login
+   50  docker login
+   51  docker images
+   52  docker tag my-java-image itashi20/my-java-image
+   53  docker images
+   54  docker push itashi20/my-java-image
+   55  history
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker rmi itashi20/my-java-image
+Untagged: itashi20/my-java-image:latest
+Untagged: itashi20/my-java-image@sha256:f133d49e37ea0d8d8be4bcbc5f583e29cf1aa0eadad243d6bbfa893130bd157b
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker rmi my-java-image --force
+Untagged: my-java-image:latest
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED             SIZE
+<none>            <none>    733366b90b65   30 minutes ago      544MB
+myimage           latest    a214f6e87780   About an hour ago   120MB
+jenkins/jenkins   jdk11     6cbd5625d2cd   5 days ago          478MB
+openjdk           8         b273004037cc   15 months ago       526MB
+mysql             5.6       dd3b2a5dcb48   22 months ago       303MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker pull my-java-image --force
+unknown flag: --force
+See 'docker pull --help'.
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker pull itashi20/my-java-image
+Using default tag: latest
+latest: Pulling from itashi20/my-java-image
+Digest: sha256:f133d49e37ea0d8d8be4bcbc5f583e29cf1aa0eadad243d6bbfa893130bd157b
+Status: Downloaded newer image for itashi20/my-java-image:latest
+docker.io/itashi20/my-java-image:latest
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ docker images
+REPOSITORY               TAG       IMAGE ID       CREATED             SIZE
+itashi20/my-java-image   latest    733366b90b65   31 minutes ago      544MB
+myimage                  latest    a214f6e87780   About an hour ago   120MB
+jenkins/jenkins          jdk11     6cbd5625d2cd   5 days ago          478MB
+openjdk                  8         b273004037cc   15 months ago       526MB
+mysql                    5.6       dd3b2a5dcb48   22 months ago       303MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+   15  docker ps
+   16  docker rm d0e2 --force
+   17  docker ps
+   18  mkdir mydockerfiles
+   19  cd mydockerfiles/
+   20  vi Dockerfile
+   21  cat Dockerfile
+   22  docker build -t myimage .
+   23  docker images
+   24  docker run myimage
+   25  docker ps -a
+   26  history
+   27  docker pull openjdk:8
+   28  docker pull mysql:5.6
+   29  docker images
+   30  docker ps
+   31  rm Dockerfile
+   32  ls
+   33  git clone https://github.com/Itashi20/sldocker.git
+   34  cd sldocker/
+   35  ls
+   36  history
+   37  vi Dockerfile
+   38  docker build -t my-java-image
+   39  docker build -t my-java-image .
+   40  docker run my-java-image
+   41  docker ps
+   42  docker ps -a
+   43  docker rm 2dc --force
+   44  docker run -d -p 8070:8090 --name java-con my-java-image
+   45  docker logs ec96
+   46  history
+   47  vi Dockerfile
+   48  docker login
+   49  docker login
+   50  docker login
+   51  docker images
+   52  docker tag my-java-image itashi20/my-java-image
+   53  docker images
+   54  docker push itashi20/my-java-image
+   55  history
+   56  docker rmi itashi20/my-java-image
+   57  docker rmi my-java-image --force
+   58  docker images
+   59  docker pull my-java-image --force
+   60  docker pull itashi20/my-java-image
+   61  docker images
+   62  history
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ cd..
+bash: cd..: command not found
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ cd.
+bash: cd.: command not found
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ /
+bash: /: Is a directory
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ cd /mydockerfiles
+bash: cd: /mydockerfiles: No such file or directory
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ cd.
+bash: cd.: command not found
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ cd./
+bash: cd./: No such file or directory
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ cd ..
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ ls
+sldocker
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ cd sldocker
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ vi Dockerfile
+[node1] (local) root@192.168.0.28 ~/mydockerfiles/sldocker
+$ 
