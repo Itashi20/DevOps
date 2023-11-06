@@ -1,0 +1,18 @@
+history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+
+
+
