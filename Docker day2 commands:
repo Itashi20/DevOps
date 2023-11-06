@@ -4,6 +4,92 @@ history
     3  docker volume ls
     4  docker images
     5  docker pull jenkins/jenkins:jdk11
+    6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11  (-v attaching to volume, -p port forwarding, -d for running jenkins in the background)
+    7  docker ps
+    8  docker logs 9779
+    9  docker ps
+   10  docker inspect container 9779
+   11  docker ps
+   12  docker rm 9779 --force
+   13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
+   14  history
+
+
+
+task 2:
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                               NAMES
+d0e2eb1a4f17   jenkins/jenkins:jdk11   "/usr/bin/tini -- /u…"   39 minutes ago   Up 39 minutes   50000/tcp, 0.0.0.0:8070->8080/tcp   myjenkins2
+[node1] (local) root@192.168.0.28 ~
+$ docker rm d0e2 --force
+d0e2
+[node1] (local) root@192.168.0.28 ~
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[node1] (local) root@192.168.0.28 ~
+$ mkdir mydockerfiles
+[node1] (local) root@192.168.0.28 ~
+$ cd mydockerfiles/
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ vi Dockerfile
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ cat Dockerfile
+From ubuntu:20.04
+
+MAINTAINER Itashi<Itashi@gmail.com>
+
+RUN apt-get update
+
+CMD ["echo","WELCOME TO MY IMAGE"]
+
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker build -t myimage .
+[+] Building 14.5s (6/6) FINISHED                                                                                                                    docker:default
+ => [internal] load build definition from Dockerfile                                                                                                           0.1s
+ => => transferring dockerfile: 149B                                                                                                                           0.0s
+ => [internal] load .dockerignore                                                                                                                              0.1s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:20.04                                                                                                0.4s
+ => [1/2] FROM docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f244870e23122f703f91c2                                          5.4s
+ => => resolve docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f244870e23122f703f91c2                                          0.0s
+ => => sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f244870e23122f703f91c2 1.13kB / 1.13kB                                                                 0.0s
+ => => sha256:218bb51abbd1864df8be26166f847547b3851a89999ca7bfceb85ca9b5d2e95d 424B / 424B                                                                     0.0s
+ => => sha256:bf40b7bc7a11b43785755d3c5f23dee03b08e988b327a2f10b22d01d5dc5259d 2.30kB / 2.30kB                                                                 0.0s
+ => => sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80ecae7cb25f9ba5f7d88ea6e15c 27.51MB / 27.51MB                                                               0.6s
+ => => extracting sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80ecae7cb25f9ba5f7d88ea6e15c                                                                      4.5s
+ => [2/2] RUN apt-get update                                                                                                                                   8.0s
+ => exporting to image                                                                                                                                         0.5s
+ => => exporting layers                                                                                                                                        0.5s
+ => => writing image sha256:a214f6e877805b75d6ad527f00d07588e30ced000d46df7ffd457a2a1a6946f3                                                                   0.0s 
+ => => naming to docker.io/library/myimage                                                                                                                     0.0s 
+[node1] (local) root@192.168.0.28 ~/mydockerfiles                                                                                                                   
+$ docker images                                                                                                                                                     
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+myimage           latest    a214f6e87780   16 seconds ago   120MB
+jenkins/jenkins   jdk11     6cbd5625d2cd   5 days ago       478MB
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker run myimage
+WELCOME TO MY IMAGE
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+82e9c392ef39   myimage   "echo 'WELCOME TO MY…"   15 seconds ago   Exited (0) 14 seconds ago             fervent_dubinsky
+[node1] (local) root@192.168.0.28 ~/mydockerfiles
+$ 
+
+
+
+
+
+only cmds:
+
+ history
+    1  docker volume ls
+    2  docker volume create myvol
+    3  docker volume ls
+    4  docker images
+    5  docker pull jenkins/jenkins:jdk11
     6  docker run --name myjenkins -v myvol:/var/jenkins_home -p 8090:8080 -d jenkins/jenkins:jdk11
     7  docker ps
     8  docker logs 9779
@@ -13,6 +99,62 @@ history
    12  docker rm 9779 --force
    13  docker run --name myjenkins2 -v myvol:/var/jenkins_home -p 8070:8080 -d jenkins/jenkins:jdk11
    14  history
+   15  docker ps
+   16  docker rm d0e2 --force
+   17  docker ps
+   18  mkdir mydockerfiles
+   19  cd mydockerfiles/
+   20  vi Dockerfile
+   21  cat Dockerfile
+   22  docker build -t myimage .
+   23  docker images
+   24  docker run myimage
+   25  docker ps -a
+   26  history
+[node1] (local) root@192.168.
+
+
+
+
+30  docker ps
+   31  rm Dockerfile    --deleting previous dockerfile
+   32  ls
+   33  git clone https://github.com/Itashi20/sldocker.git     --getting jar file from github
+   34  cd sldocker/
+   35  ls
+   36  history
+
+
+
+Deploying spring boot to docker
+
+history
+   27  docker pull openjdk:8
+   28  docker pull mysql:5.6
+   29  docker images
+   30  docker ps
+   31  rm Dockerfile
+   32  ls
+   33  git clone https://github.com/Itashi20/sldocker.git
+   34  cd sldocker/
+   35  ls
+   36  history
+   37  vi Dockerfile
+   38  docker build -t my-java-image
+   39  docker build -t my-java-image .
+   40  docker run my-java-image
+   41  docker ps
+   42  docker ps -a
+   43  docker rm 2dc --force
+   44  docker run -d -p 8070:8090 --name java-con my-java-image   (--running spring webservice application in docker)
+   45  docker logs ec96
+   46  history
+
+
+
+
+
+
 
 
 
