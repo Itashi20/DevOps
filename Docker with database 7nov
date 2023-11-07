@@ -409,3 +409,194 @@ in bash type:mysql -u sa -p
 TASK-2
 
 
+[node1] (local) root@192.168.0.8 ~
+$ rmdir docker-withdb
+rmdir: 'docker-withdb': Directory not empty
+[node1] (local) root@192.168.0.8 ~
+$ rm -rf docker-withdb/
+[node1] (local) root@192.168.0.8 ~
+$ ls
+[node1] (local) root@192.168.0.8 ~
+$ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+users-mysql   latest    66ecf31d58d8   29 minutes ago   570MB
+mysql         8.2.0     a3b6608898d6   13 days ago      596MB
+openjdk       8         b273004037cc   15 months ago    526MB
+[node1] (local) root@192.168.0.8 ~
+$ docker rm users-mysql
+Error response from daemon: No such container: users-mysql
+[node1] (local) root@192.168.0.8 ~
+$ docker rmi users-mysql
+Untagged: users-mysql:latest
+Deleted: sha256:66ecf31d58d84484264c8a1d03bc00146a7d3d615313c20f7c419caf7d714a4e
+[node1] (local) root@192.168.0.8 ~
+$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+mysql        8.2.0     a3b6608898d6   13 days ago     596MB
+openjdk      8         b273004037cc   15 months ago   526MB
+[node1] (local) root@192.168.0.8 ~
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED             STATUS             PORTS                 NAMES
+4b80bfc99acd   mysql:8.2.0   "docker-entrypoint.s…"   About an hour ago   Up About an hour   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.8 ~
+$ git clone https://github.com/Itashi20/docker-withdb.git
+Cloning into 'docker-withdb'...
+remote: Enumerating objects: 10, done.
+remote: Total 10 (delta 0), reused 0 (delta 0), pack-reused 10
+Receiving objects: 100% (10/10), 40.32 MiB | 29.45 MiB/s, done.
+Resolving deltas: 100% (1/1), done.
+[node1] (local) root@192.168.0.8 ~
+$ ls
+docker-withdb
+[node1] (local) root@192.168.0.8 ~
+$ cd docker-withdb
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ ls
+README.md              spring-orm-docker.jar
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ vi Dockerfile
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ ls
+Dockerfile             README.md              spring-orm-docker.jar
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker build -t users-mysql .
+[+] Building 1.0s (7/7) FINISHED                                                                                                                     docker:default
+ => [internal] load build definition from Dockerfile                                                                                                           0.0s
+ => => transferring dockerfile: 171B                                                                                                                           0.0s
+ => [internal] load .dockerignore                                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load metadata for docker.io/library/openjdk:8                                                                                                   0.0s
+ => [internal] load build context                                                                                                                              0.5s
+ => => transferring context: 46.83MB                                                                                                                           0.5s
+ => CACHED [1/2] FROM docker.io/library/openjdk:8                                                                                                              0.0s
+ => [2/2] ADD spring-orm-docker.jar spring-orm-docker.jar                                                                                                      0.1s
+ => exporting to image                                                                                                                                         0.3s
+ => => exporting layers                                                                                                                                        0.3s
+ => => writing image sha256:d41763ff8a38b5a1e3733827f17bfb61627fda601d7ca4dadaaad36962a147ef                                                                   0.0s
+ => => naming to docker.io/library/users-mysql                                                                                                                 0.0s
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+users-mysql   latest    d41763ff8a38   6 seconds ago   573MB
+mysql         8.2.0     a3b6608898d6   13 days ago     596MB
+openjdk       8         b273004037cc   15 months ago   526MB
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker run -p 8090:8090 --name users-mysql-dockerapp --link mysql-standalone:mysql -d users-mysql
+aed02c27244c4f7d51596f69cd85f5522677d4b2c21fadd503747c38b473df82
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED             STATUS             PORTS                    NAMES
+aed02c27244c   users-mysql   "java -jar spring-or…"   6 seconds ago       Up 5 seconds       0.0.0.0:8090->8090/tcp   users-mysql-dockerapp
+4b80bfc99acd   mysql:8.2.0   "docker-entrypoint.s…"   About an hour ago   Up About an hour   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker logs
+"docker logs" requires exactly 1 argument.
+See 'docker logs --help'.
+
+Usage:  docker logs [OPTIONS] CONTAINER
+
+Fetch the logs of a container
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker logs aed0
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-07 05:23:35.843  INFO 1 --- [           main] c.e.springmvc.SpringMvcApplication       : Starting SpringMvcApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on aed02c27244c with PID 1 (/spring-orm-docker.jar started by root in /)
+2023-11-07 05:23:35.849  INFO 1 --- [           main] c.e.springmvc.SpringMvcApplication       : No active profile set, falling back to 1 default profile: "default"
+2023-11-07 05:23:38.907  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-11-07 05:23:38.993  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71 ms. Found 1 JPA repository interfaces.
+2023-11-07 05:23:40.827  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-11-07 05:23:40.848  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-07 05:23:40.849  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-07 05:23:41.012  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-07 05:23:41.012  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4941 ms
+2023-11-07 05:23:41.627  INFO 1 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-11-07 05:23:41.731  INFO 1 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-11-07 05:23:42.265  INFO 1 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-11-07 05:23:42.475  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-07 05:23:43.491  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-11-07 05:23:43.637  INFO 1 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-11-07 05:23:45.319  INFO 1 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-11-07 05:23:45.339  INFO 1 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-11-07 05:23:46.830  WARN 1 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-11-07 05:23:47.446 DEBUG 1 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 13 mappings in 'requestMappingHandlerMapping'
+2023-11-07 05:23:47.573  INFO 1 --- [           main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-11-07 05:23:47.851 DEBUG 1 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2023-11-07 05:23:48.208 DEBUG 1 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2023-11-07 05:23:48.230 DEBUG 1 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2023-11-07 05:23:48.587  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2023-11-07 05:23:48.589  INFO 1 --- [           main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2023-11-07 05:23:48.636  INFO 1 --- [           main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2023-11-07 05:23:48.689  INFO 1 --- [           main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2023-11-07 05:23:49.112  INFO 1 --- [           main] c.e.springmvc.SpringMvcApplication       : Started SpringMvcApplication in 14.129 seconds (JVM running for 15.011)
+I am commit from feature1
+I am feature2 branch updation
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED             STATUS             PORTS                    NAMES
+aed02c27244c   users-mysql   "java -jar spring-or…"   58 seconds ago      Up 57 seconds      0.0.0.0:8090->8090/tcp   users-mysql-dockerapp
+4b80bfc99acd   mysql:8.2.0   "docker-entrypoint.s…"   About an hour ago   Up About an hour   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker exec -it aed0 bash
+root@aed02c27244c:/# mysql -u sa -p
+bash: mysql: command not found
+root@aed02c27244c:/# exit
+exit
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ docker exec -it 4b80 bash
+bash-4.4# mysql -u sa -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_test     |
++--------------------+
+| address            |
+| hibernate_sequence |
+| user               |
++--------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from user;
+Empty set (0.00 sec)
+
+mysql> describe user;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| uid         | int          | NO   | PRI | NULL    |       |
+| city        | varchar(255) | YES  |     | NULL    |       |
+| email       | varchar(255) | YES  |     | NULL    |       |
+| pwd         | varchar(255) | YES  |     | NULL    |       |
+| uname       | varchar(255) | YES  |     | NULL    |       |
+| address_aid | int          | YES  | MUL | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into user values(1,"abc","abc");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into user values(1,"abc","abc","123","1",2);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`user`, CONSTRAINT `FKbyf6iq701e53h625qy76nwp2c` FOREIGN KEY (`address_aid`) REFERENCES `address` (`aid`))
+mysql> 
