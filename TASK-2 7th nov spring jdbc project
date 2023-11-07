@@ -1,0 +1,980 @@
+ype 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create table Employee(
+    -> emp_Id int,
+    -> emp_name varchar(20),
+    -> emp_city varchar(20));
+ERROR 1046 (3D000): No database selected
+mysql> use test;
+Database changed
+mysql> create table Employee( emp_Id int, emp_name varchar(20), emp_city varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table Project(emp_Id int,
+    -> project_Id int,
+    -> project_Name varchar(20),
+    -> location varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table Insurance(emp_Id int,
+    -> insType varchar(20),
+    -> amount int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Employee       |
+| Insurance      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
+bash-4.4# exit;
+exit
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ ls
+Dockerfile              README.md               spring-jdbc-docker.jar
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker build -t users-jdbc
+ERROR: "docker buildx build" requires exactly 1 argument.
+See 'docker buildx build --help'.
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Start a build
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker build -t users-jdbc .
+[+] Building 0.8s (7/7) FINISHED                                                                                                                     docker:default
+ => [internal] load .dockerignore                                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load build definition from Dockerfile                                                                                                           0.0s
+ => => transferring dockerfile: 175B                                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/openjdk:8                                                                                                   0.0s
+ => [1/2] FROM docker.io/library/openjdk:8                                                                                                                     0.1s
+ => [internal] load build context                                                                                                                              0.4s
+ => => transferring context: 25.27MB                                                                                                                           0.4s
+ => [2/2] ADD spring-jdbc-docker.jar spring-jdbc-docker.jar                                                                                                    0.1s
+ => exporting to image                                                                                                                                         0.2s
+ => => exporting layers                                                                                                                                        0.2s
+ => => writing image sha256:0c86602c6b99c74b1646811c5fbe03407b7d2aefbbea892ef445202f7d6b55e7                                                                   0.0s
+ => => naming to docker.io/library/users-jdbc                                                                                                                  0.0s
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ ls
+Dockerfile              README.md               spring-jdbc-docker.jar
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker run -p 8050:8050 --name users-jdbc-docker --link mysql-standalone:mysql -d users-jdbc
+741f8ba132179f3cf47ec1f350cdf71174f19b9cfc6d7db796ee21473a1d6d76
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+741f8ba13217   users-jdbc    "java -jar spring-jd…"   6 seconds ago    Up 5 seconds    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker logs 741f
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-07 07:49:37.994  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on 741f8ba13217 with PID 1 (/spring-jdbc-docker.jar started by root in /)
+2023-11-07 07:49:38.000  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-11-07 07:49:41.963  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8050 (http)
+2023-11-07 07:49:41.992  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-07 07:49:41.993  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-07 07:49:42.179  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-07 07:49:42.180  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4010 ms
+2023-11-07 07:49:42.599  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:42.647  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:42.684  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:43.865  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8050 (http) with context path ''
+2023-11-07 07:49:43.903  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Started SpringCoreApplication in 6.907 seconds (JVM running for 7.931)
+2023-11-07 07:49:43.924  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-07 07:49:44.884  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+Called before Employee Insurance Type.....
+Exception in thread "main" java.lang.reflect.InvocationTargetException
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:108)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+        at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:65)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into emp(emp_Id,emp_name,emp_city)values(?,?,?)]; nested exception is java.sql.SQLSyntaxErrorException: Table 'test.emp' doesn't exist
+        at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:236)
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+        at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1577)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:669)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:962)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1017)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1027)
+        at com.dao.EmployeeDaoImpl.addEmployee(EmployeeDaoImpl.java:27)
+        at com.dao.EmployeeDaoImpl$$FastClassBySpringCGLIB$$8a8ba3db.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.dao.EmployeeDaoImpl$$EnhancerBySpringCGLIB$$f3d56329.addEmployee(<generated>)
+        at com.service.EmpInsServiceImpl.assignINSTOEMP(EmpInsServiceImpl.java:29)
+        at com.service.EmpInsServiceImpl$$FastClassBySpringCGLIB$$9293e749.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:58)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+        at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+        at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.service.EmpInsServiceImpl$$EnhancerBySpringCGLIB$$7e742b90.assignINSTOEMP(<generated>)
+        at com.example.springcore.SpringCoreApplication.main(SpringCoreApplication.java:29)
+        ... 8 more
+Caused by: java.sql.SQLSyntaxErrorException: Table 'test.emp' doesn't exist
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+        at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:967)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:650)
+        ... 42 more
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ ^C
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+users-jdbc   latest    0c86602c6b99   4 minutes ago   551MB
+mysql        8.2.0     a3b6608898d6   13 days ago     596MB
+openjdk      8         b273004037cc   15 months ago   526MB
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+741f8ba13217   users-jdbc    "java -jar spring-jd…"   3 minutes ago    Up 3 minutes    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   13 minutes ago   Up 13 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -it 33d1
+"docker exec" requires at least 2 arguments.
+See 'docker exec --help'.
+
+Usage:  docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+Execute a command in a running container
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -it 33d1 bash
+bash-4.4# mysql -u sa -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Employee       |
+| Insurance      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from employee
+    -> ;
+ERROR 1146 (42S02): Table 'test.employee' doesn't exist
+mysql> delete from Employee
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Employee       |
+| Insurance      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> drop table Employee;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table emp(
+    -> emp_Id int,
+    -> emp_name varchar(20),
+    -> emp_city varchar(20));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
+| emp            |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> describe emp;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_Id   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(20) | YES  |     | NULL    |       |
+| emp_city | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
+bash-4.4# exit;
+exit
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+741f8ba13217   users-jdbc    "java -jar spring-jd…"   6 minutes ago    Up 6 minutes    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   17 minutes ago   Up 17 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker logs 741f
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-07 07:49:37.994  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on 741f8ba13217 with PID 1 (/spring-jdbc-docker.jar started by root in /)
+2023-11-07 07:49:38.000  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-11-07 07:49:41.963  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8050 (http)
+2023-11-07 07:49:41.992  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-07 07:49:41.993  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-07 07:49:42.179  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-07 07:49:42.180  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4010 ms
+2023-11-07 07:49:42.599  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:42.647  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:42.684  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:43.865  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8050 (http) with context path ''
+2023-11-07 07:49:43.903  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Started SpringCoreApplication in 6.907 seconds (JVM running for 7.931)
+2023-11-07 07:49:43.924  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-07 07:49:44.884  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+Called before Employee Insurance Type.....
+Exception in thread "main" java.lang.reflect.InvocationTargetException
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:108)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+        at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:65)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into emp(emp_Id,emp_name,emp_city)values(?,?,?)]; nested exception is java.sql.SQLSyntaxErrorException: Table 'test.emp' doesn't exist
+        at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:236)
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+        at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1577)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:669)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:962)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1017)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1027)
+        at com.dao.EmployeeDaoImpl.addEmployee(EmployeeDaoImpl.java:27)
+        at com.dao.EmployeeDaoImpl$$FastClassBySpringCGLIB$$8a8ba3db.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.dao.EmployeeDaoImpl$$EnhancerBySpringCGLIB$$f3d56329.addEmployee(<generated>)
+        at com.service.EmpInsServiceImpl.assignINSTOEMP(EmpInsServiceImpl.java:29)
+        at com.service.EmpInsServiceImpl$$FastClassBySpringCGLIB$$9293e749.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:58)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+        at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+        at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.service.EmpInsServiceImpl$$EnhancerBySpringCGLIB$$7e742b90.assignINSTOEMP(<generated>)
+        at com.example.springcore.SpringCoreApplication.main(SpringCoreApplication.java:29)
+        ... 8 more
+Caused by: java.sql.SQLSyntaxErrorException: Table 'test.emp' doesn't exist
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+        at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:967)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:650)
+        ... 42 more
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+741f8ba13217   users-jdbc    "java -jar spring-jd…"   7 minutes ago    Up 7 minutes    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   17 minutes ago   Up 17 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -it 33d1 bash
+bash-4.4# mysql -u sa -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
+| emp            |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> create table emp( emp_Id int, emp_name varchar(20), emp_city varchar(20));
+ERROR 1050 (42S01): Table 'emp' already exists
+mysql> exit;
+Bye
+bash-4.4# exit;
+exit
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker logs 741f
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-07 07:49:37.994  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on 741f8ba13217 with PID 1 (/spring-jdbc-docker.jar started by root in /)
+2023-11-07 07:49:38.000  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-11-07 07:49:41.963  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8050 (http)
+2023-11-07 07:49:41.992  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-07 07:49:41.993  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-07 07:49:42.179  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-07 07:49:42.180  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4010 ms
+2023-11-07 07:49:42.599  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:42.647  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:42.684  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 07:49:43.865  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8050 (http) with context path ''
+2023-11-07 07:49:43.903  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Started SpringCoreApplication in 6.907 seconds (JVM running for 7.931)
+2023-11-07 07:49:43.924  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-07 07:49:44.884  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+Called before Employee Insurance Type.....
+Exception in thread "main" java.lang.reflect.InvocationTargetException
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:108)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+        at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:65)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into emp(emp_Id,emp_name,emp_city)values(?,?,?)]; nested exception is java.sql.SQLSyntaxErrorException: Table 'test.emp' doesn't exist
+        at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:236)
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+        at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1577)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:669)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:962)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1017)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1027)
+        at com.dao.EmployeeDaoImpl.addEmployee(EmployeeDaoImpl.java:27)
+        at com.dao.EmployeeDaoImpl$$FastClassBySpringCGLIB$$8a8ba3db.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.dao.EmployeeDaoImpl$$EnhancerBySpringCGLIB$$f3d56329.addEmployee(<generated>)
+        at com.service.EmpInsServiceImpl.assignINSTOEMP(EmpInsServiceImpl.java:29)
+        at com.service.EmpInsServiceImpl$$FastClassBySpringCGLIB$$9293e749.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:58)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+        at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+        at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.service.EmpInsServiceImpl$$EnhancerBySpringCGLIB$$7e742b90.assignINSTOEMP(<generated>)
+        at com.example.springcore.SpringCoreApplication.main(SpringCoreApplication.java:29)
+        ... 8 more
+Caused by: java.sql.SQLSyntaxErrorException: Table 'test.emp' doesn't exist
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+        at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:967)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:650)
+        ... 42 more
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+741f8ba13217   users-jdbc    "java -jar spring-jd…"   30 minutes ago   Up 30 minutes   0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   40 minutes ago   Up 40 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -it 33d1 bash
+bash-4.4# mysql -u sa -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 31
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
+| emp            |
++----------------+
+3 rows in set (0.01 sec)
+
+mysql> describe emp;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_Id   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(20) | YES  |     | NULL    |       |
+| emp_city | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from emp;
+Empty set (0.01 sec)
+
+mysql> select * from Project;
+Empty set (0.01 sec)
+
+mysql> drop table emp;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table emp(
+    -> emp_Id int,
+    -> emp_name varchar(20),
+    -> emp_city varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
+| emp            |
++----------------+
+3 rows in set (0.01 sec)
+
+mysql> exit;
+Bye
+bash-4.4# exit;
+exit
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps;
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+741f8ba13217   users-jdbc    "java -jar spring-jd…"   33 minutes ago   Up 33 minutes   0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   44 minutes ago   Up 43 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ ls
+Dockerfile              README.md               spring-jdbc-docker.jar
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ vi Dockerfile;
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker rm 741f
+Error response from daemon: You cannot remove a running container 741f8ba132179f3cf47ec1f350cdf71174f19b9cfc6d7db796ee21473a1d6d76. Stop the container before attempting removal or force remove
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker rm 741f --force
+741f
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   45 minutes ago   Up 45 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   45 minutes ago   Up 45 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker build -t users-jdbc .
+[+] Building 0.1s (7/7) FINISHED                                                                                                                     docker:default
+ => [internal] load .dockerignore                                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load build definition from Dockerfile                                                                                                           0.0s
+ => => transferring dockerfile: 175B                                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/openjdk:8                                                                                                   0.0s
+ => [1/2] FROM docker.io/library/openjdk:8                                                                                                                     0.0s
+ => [internal] load build context                                                                                                                              0.0s
+ => => transferring context: 46B                                                                                                                               0.0s
+ => CACHED [2/2] ADD spring-jdbc-docker.jar spring-jdbc-docker.jar                                                                                             0.0s
+ => exporting to image                                                                                                                                         0.0s
+ => => exporting layers                                                                                                                                        0.0s
+ => => writing image sha256:0c86602c6b99c74b1646811c5fbe03407b7d2aefbbea892ef445202f7d6b55e7                                                                   0.0s
+ => => naming to docker.io/library/users-jdbc                                                                                                                  0.0s
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker run -p 8050:8050 --name users-jdbc-docker --link mysql-standalone:mysql -d users-jdbc
+1e40c107647fc9cb598b95e070c876dbfce89f2e1e21b8fac1c3de1ba8fa2a8a
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+1e40c107647f   users-jdbc    "java -jar spring-jd…"   4 seconds ago    Up 3 seconds    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   46 minutes ago   Up 46 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker logs 1e40
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-07 08:26:16.499  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on 1e40c107647f with PID 1 (/spring-jdbc-docker.jar started by root in /)
+2023-11-07 08:26:16.508  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-11-07 08:26:20.314  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8050 (http)
+2023-11-07 08:26:20.349  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-07 08:26:20.350  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-07 08:26:20.481  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-07 08:26:20.481  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3819 ms
+2023-11-07 08:26:20.763  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 08:26:20.796  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 08:26:20.822  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 08:26:21.976  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8050 (http) with context path ''
+2023-11-07 08:26:21.994  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Started SpringCoreApplication in 6.539 seconds (JVM running for 7.509)
+2023-11-07 08:26:22.012  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-07 08:26:22.815  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+Called before Employee Insurance Type.....
+Exception in thread "main" java.lang.reflect.InvocationTargetException
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:108)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+        at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:65)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [insert into insurance(emp_Id,insType,amount)values(?,?,?)]; nested exception is java.sql.SQLSyntaxErrorException: Table 'test.insurance' doesn't exist
+        at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:236)
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+        at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1577)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:669)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:962)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1017)
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1027)
+        at com.dao.InsuranceDAOImpl.addInsuranceToEMP(InsuranceDAOImpl.java:25)
+        at com.dao.InsuranceDAOImpl$$FastClassBySpringCGLIB$$56a7e5e1.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.dao.InsuranceDAOImpl$$EnhancerBySpringCGLIB$$c4ad362d.addInsuranceToEMP(<generated>)
+        at com.service.EmpInsServiceImpl.assignINSTOEMP(EmpInsServiceImpl.java:30)
+        at com.service.EmpInsServiceImpl$$FastClassBySpringCGLIB$$9293e749.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:792)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:58)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+        at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+        at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:762)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:707)
+        at com.service.EmpInsServiceImpl$$EnhancerBySpringCGLIB$$4205b6d5.assignINSTOEMP(<generated>)
+        at com.example.springcore.SpringCoreApplication.main(SpringCoreApplication.java:29)
+        ... 8 more
+Caused by: java.sql.SQLSyntaxErrorException: Table 'test.insurance' doesn't exist
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+        at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:967)
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:650)
+        ... 42 more
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS              PORTS                    NAMES
+1e40c107647f   users-jdbc    "java -jar spring-jd…"   About a minute ago   Up About a minute   0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   47 minutes ago       Up 47 minutes       3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -it 33d1 bash
+bash-4.4# mysql -u sa -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 42
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Insurance      |
+| Project        |
+| emp            |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> drop table Insurance;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Project        |
+| emp            |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table insurance(emp_Id int,
+    -> insType varchar(20),
+    -> amount int));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 3
+mysql> create table insurance(emp_Id int, insType varchar(20), amount int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Project        |
+| emp            |
+| insurance      |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
+bash-4.4# exit;
+exit
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+1e40c107647f   users-jdbc    "java -jar spring-jd…"   3 minutes ago    Up 3 minutes    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   50 minutes ago   Up 50 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker rm 1e40 --force
+1e40
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   51 minutes ago   Up 50 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker build -t users-mysql .
+[+] Building 0.1s (7/7) FINISHED                                                                                                                     docker:default
+ => [internal] load .dockerignore                                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load build definition from Dockerfile                                                                                                           0.0s
+ => => transferring dockerfile: 175B                                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/openjdk:8                                                                                                   0.0s
+ => [internal] load build context                                                                                                                              0.0s
+ => => transferring context: 46B                                                                                                                               0.0s
+ => [1/2] FROM docker.io/library/openjdk:8                                                                                                                     0.0s
+ => CACHED [2/2] ADD spring-jdbc-docker.jar spring-jdbc-docker.jar                                                                                             0.0s
+ => exporting to image                                                                                                                                         0.0s
+ => => exporting layers                                                                                                                                        0.0s
+ => => writing image sha256:0c86602c6b99c74b1646811c5fbe03407b7d2aefbbea892ef445202f7d6b55e7                                                                   0.0s
+ => => naming to docker.io/library/users-mysql                                                                                                                 0.0s
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ socker ps -a
+bash: socker: command not found
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   51 minutes ago   Up 51 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker images;
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+users-jdbc    latest    0c86602c6b99   42 minutes ago   551MB
+users-mysql   latest    0c86602c6b99   42 minutes ago   551MB
+mysql         8.2.0     a3b6608898d6   13 days ago      596MB
+openjdk       8         b273004037cc   15 months ago    526MB
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   51 minutes ago   Up 51 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   53 minutes ago   Up 53 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker build -t users-mysql .
+[+] Building 0.1s (7/7) FINISHED                                                                                                                     docker:default
+ => [internal] load .dockerignore                                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                                0.0s
+ => [internal] load build definition from Dockerfile                                                                                                           0.0s
+ => => transferring dockerfile: 175B                                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/openjdk:8                                                                                                   0.0s
+ => [internal] load build context                                                                                                                              0.0s
+ => => transferring context: 46B                                                                                                                               0.0s
+ => [1/2] FROM docker.io/library/openjdk:8                                                                                                                     0.0s
+ => CACHED [2/2] ADD spring-jdbc-docker.jar spring-jdbc-docker.jar                                                                                             0.0s
+ => exporting to image                                                                                                                                         0.0s
+ => => exporting layers                                                                                                                                        0.0s
+ => => writing image sha256:0c86602c6b99c74b1646811c5fbe03407b7d2aefbbea892ef445202f7d6b55e7                                                                   0.0s
+ => => naming to docker.io/library/users-mysql                                                                                                                 0.0s
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                 NAMES
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   53 minutes ago   Up 53 minutes   3306/tcp, 33060/tcp   mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker run -p 8050:8050 --name users-jdbc-docker --link mysql-standalone:mysql -d users-jdbc
+368d1f2268d299522cffc861d74a910c299ca25aff15d0cb25d88dee907feeee
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+368d1f2268d2   users-jdbc    "java -jar spring-jd…"   5 seconds ago    Up 4 seconds    0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   54 minutes ago   Up 54 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker logs 368d
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-11-07 08:33:45.299  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Starting SpringCoreApplication v0.0.1-SNAPSHOT using Java 1.8.0_342 on 368d1f2268d2 with PID 1 (/spring-jdbc-docker.jar started by root in /)
+2023-11-07 08:33:45.322  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : No active profile set, falling back to 1 default profile: "default"
+2023-11-07 08:33:49.459  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8050 (http)
+2023-11-07 08:33:49.488  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-07 08:33:49.489  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.80]
+2023-11-07 08:33:49.724  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-07 08:33:49.725  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4133 ms
+2023-11-07 08:33:49.989  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 08:33:50.088  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 08:33:50.112  INFO 1 --- [           main] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.dao.support.DaoSupport.afterPropertiesSet() throws java.lang.IllegalArgumentException,org.springframework.beans.factory.BeanInitializationException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-11-07 08:33:51.353  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8050 (http) with context path ''
+2023-11-07 08:33:51.398  INFO 1 --- [           main] c.e.springcore.SpringCoreApplication     : Started SpringCoreApplication in 7.352 seconds (JVM running for 8.169)
+2023-11-07 08:33:51.424  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-11-07 08:33:52.485  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+Called before Employee Insurance Type.....
+Called before Employee Insurance Type.....
+After is called successfully PROJECT ADDED TO EMPLOYEE
+Employee  with INS Added successfully
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+368d1f2268d2   users-jdbc    "java -jar spring-jd…"   41 seconds ago   Up 39 seconds   0.0.0.0:8050->8050/tcp   users-jdbc-docker
+33d179db1417   mysql:8.2.0   "docker-entrypoint.s…"   54 minutes ago   Up 54 minutes   3306/tcp, 33060/tcp      mysql-standalone
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -t 368d;
+"docker exec" requires at least 2 arguments.
+See 'docker exec --help'.
+
+Usage:  docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+Execute a command in a running container
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -t 368d bash;
+root@368d1f2268d2:/# ^C
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -t^C68d bash;
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ docker exec -it 33d1 bash;
+bash-4.4# mysql -u sa -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'sa'@'localhost' (using password: YES)
+bash-4.4# mysql -u sa -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'sa'@'localhost' (using password: YES)
+bash-4.4# mysql -u sa -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 55
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_test |
++----------------+
+| Project        |
+| emp            |
+| insurance      |
++----------------+
+3 rows in set (0.01 sec)
+
+mysql> slect * from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from emp' at line 1
+mysql> select * from emp;
++--------+----------+----------+
+| emp_Id | emp_name | emp_city |
++--------+----------+----------+
+|    101 | Itashi   | blr      |
+|    101 | Itashi   | blr      |
++--------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Project;
++--------+------------+--------------+----------+
+| emp_Id | project_Id | project_Name | location |
++--------+------------+--------------+----------+
+|    101 |         23 | NewProject   | Blr      |
++--------+------------+--------------+----------+
+1 row in set (0.01 sec)
+
+mysql> select * from insurance;
++--------+----------------+--------+
+| emp_Id | insType        | amount |
++--------+----------------+--------+
+|    101 | FIRE_INSURANCE |  10000 |
++--------+----------------+--------+
+1 row in set (0.00 sec)
+
+mysql> 
