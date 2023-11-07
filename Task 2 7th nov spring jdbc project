@@ -978,3 +978,73 @@ mysql> select * from insurance;
 1 row in set (0.00 sec)
 
 mysql> 
+
+
+
+*********************************************************************************************************8
+
+history;
+    1  docker pull openjdk:8
+    2  docker pull mysql:8.2.0
+    3  docker images
+    4   docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=sa -e MYSQL_PASSWORD=password -d mysql:8.2.0
+    5  docker ps
+    6  git clone https://github.com/Itashi20/docker-jdbc.git
+    7  cd docker-jdbc
+    8  ls
+    9  vi Dockerfile
+   10  docker ps -a
+   11  docker exec -it 33d1 bash
+   12  ls
+   13  docker build -t users-jdbc
+   14  docker build -t users-jdbc .
+   15  ls
+   16  docker run -p 8050:8050 --name users-jdbc-docker --link mysql-standalone:mysql -d users-jdbc
+   17  docker ps
+   18  docker logs 741f
+   19  docker images
+   20  docker ps -a
+   21  docker exec -it 33d1
+   22  docker exec -it 33d1 bash
+   23  docker ps
+   24  docker logs 741f
+   25  docker ps
+   26  docker exec -it 33d1 bash
+   27  docker logs 741f
+   28  docker ps
+   29  docker exec -it 33d1 bash
+   30  docker ps;
+   31  ls
+   32  vi Dockerfile;
+   33  docker rm 741f
+   34  docker rm 741f --force
+   35  docker ps
+   36  docker ps -a
+   37  docker build -t users-jdbc .
+   38  docker run -p 8050:8050 --name users-jdbc-docker --link mysql-standalone:mysql -d users-jdbc
+   39  docker ps
+   40  docker logs 1e40
+   41  docker ps
+   42  docker exec -it 33d1 bash
+   43  docker ps -a
+   44  docker rm 1e40 --force
+   45  docker ps -a
+   46  docker build -t users-mysql .
+   47  socker ps -a
+   48  docker ps -a
+   49  docker images;
+   50  docker ps
+   51  docker ps -a
+   52  docker ps -a
+   53  docker build -t users-mysql .
+   54  docker ps -a
+   55  docker run -p 8050:8050 --name users-jdbc-docker --link mysql-standalone:mysql -d users-jdbc
+   56  docker ps -a
+   57  docker logs 368d
+   58  docker ps -a
+   59  docker exec -t 368d;
+   60  docker exec -t 368d bash;
+   61  docker exec -it 33d1 bash;
+   62  history;
+[node1] (local) root@192.168.0.28 ~/docker-jdbc
+$ 
