@@ -600,3 +600,92 @@ ERROR 1136 (21S01): Column count doesn't match value count at row 1
 mysql> insert into user values(1,"abc","abc","123","1",2);
 ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`user`, CONSTRAINT `FKbyf6iq701e53h625qy76nwp2c` FOREIGN KEY (`address_aid`) REFERENCES `address` (`aid`))
 mysql> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+****************************************************************8
+ 1  docker images
+    2  docker pull openjdk:8
+    3  docker pull mysql:8.2.0
+    4  docker images
+    5  docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=sa MYSQL_PASSWORD=password -d mysql:8.2.0
+    6  docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=sa -e MYSQL_PASSWORD=password -d mysql:8.2.0
+    7  docker ps
+    8  docker logs 4b80
+    9  docker ps
+   10  docker exec -it 4b80 bash
+   11  docker volume ls
+   12  docker inspect 08a0
+   13  docker inspect14da
+   14  docker inspect 14da
+   15  docker ps -a
+   16  docker inspect 4b80
+   17  history
+   18  git clone https://github.com/Itashi20/docker-withdb.git
+   19  cd docker-withdb
+   20  ls
+   21  docker ps
+   22  docker ps -a
+   23  mkdir mydockerfiles
+   24  cd mydockerfiles
+   25  vi Dockerfile
+   26  ls
+   27  vi Dockerfile
+   28  cd ..
+   29  vi Dockerfile
+   30  ls
+   31  rmdir mydockerfiles
+   32  cd Dockerfiles
+   33  cd mydockerfiles
+   34  ls
+   35  rm Dockerfile
+   36  ls
+   37  cd ..
+   38  ls
+   39  rmdir mydockerfiles
+   40  ls
+   41  docker build -t users-mysql .
+   42  docker images
+   43  ls
+   44  rm spring-orm-docker.jar
+   45  rm Dockerfile
+   46  rm README.md
+   47  cd ..
+   48  rmdir docker-withdb
+   49  rm -rf docker-withdb/
+   50  ls
+   51  docker images
+   52  docker rm users-mysql
+   53  docker rmi users-mysql
+   54  docker images
+   55  docker ps -a
+   56  git clone https://github.com/Itashi20/docker-withdb.git
+   57  ls
+   58  cd docker-withdb
+   59  ls
+   60  vi Dockerfile
+   61  ls
+   62  docker build -t users-mysql .
+   63  docker images
+   64  docker run -p 8090:8090 --name users-mysql-dockerapp --link mysql-standalone:mysql -d users-mysql
+   65  docker ps
+   66  docker logs
+   67  docker logs aed0
+   68  docker ps
+   69  docker exec -it aed0 bash
+   70  docker exec -it 4b80 bash
+   71  history
+[node1] (local) root@192.168.0.8 ~/docker-withdb
+$ 
