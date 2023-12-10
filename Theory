@@ -28,5 +28,34 @@ In summary, CDD is more focused on holistic release orchestration and management
 
 
 
+Ansible is an open-source automation tool used for configuration management, application deployment, and task automation. It is designed to simplify complex infrastructure tasks, allowing developers and system administrators to manage and deploy applications efficiently. Here are key aspects of Ansible:
 
+Agentless:
+
+Ansible operates in an agentless manner, meaning it doesn't require any software to be installed on the managed nodes. It communicates with remote servers over SSH, making it lightweight and easy to set up.
+Declarative Language:
+
+Ansible uses a declarative language, YAML (Yet Another Markup Language), for defining tasks and configurations. This makes it human-readable and allows users to specify the desired state of the system.
+Playbooks:
+
+Automation tasks in Ansible are defined in playbooks, which are YAML files containing a series of plays. Each play consists of tasks that define the actions to be taken on the target hosts.
+Idempotence:
+
+Ansible promotes idempotence, meaning running a task multiple times has the same effect as running it once. This ensures consistent and predictable results, reducing the risk of unintended changes.
+Inventory:
+
+Ansible uses an inventory file to define the hosts on which tasks will be executed. This file can be static or dynamic, allowing for flexibility in managing infrastructure.
+Modules:
+
+Ansible includes a wide range of modules that perform specific tasks. Modules can manage system resources, install software, manipulate files, and more. Users can also develop custom modules to extend Ansible's functionality.
+Roles:
+
+Roles in Ansible provide a way to organize playbooks and share reusable configurations. They encapsulate related tasks, variables, and files, making it easier to structure and maintain automation code.
+Integration:
+
+Ansible integrates seamlessly with cloud providers, networking devices, and various infrastructure components. It supports a large number of modules for interacting with services like AWS, Azure, Docker, and more.
+Community and Extensibility:
+
+Ansible has a vibrant and active community that contributes to its development. The Ansible Galaxy hub provides a repository for sharing and reusing roles and playbooks. Additionally, Ansible's modular design allows for easy integration with existing tools and systems.
+Overall, Ansible's simplicity, agentless architecture, and extensive community support make it a popular choice for automating diverse IT tasks and managing infrastructure at scale.
 
